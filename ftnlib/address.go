@@ -6,6 +6,10 @@ import (
 	"strconv"
 )
 
+var (
+	defaultDomain = "fidonet"
+)
+
 // Address - address operations interface
 type Address interface {
 	Dump2D() (addressDump string)
@@ -44,6 +48,10 @@ func ParseFtnAddress(addr string) (address FtnAddress, err error) {
 	}
 	address.zone, address.net, address.node, address.point, address.domain = parsed[1], parsed[2], parsed[3], parsed[4], match[5]
 
+	if address.domain == "" {
+		address.domain = defaultDomain
+	}
+
 	// TODO: incorrect region setter, need to be based on nodelist index
 	regSlice := 2
 	if len(match[2]) < regSlice {
@@ -56,28 +64,34 @@ func ParseFtnAddress(addr string) (address FtnAddress, err error) {
 // FormFtnAddress - ints to address
 func FormFtnAddress(zone int, region int, net int, node int, point int, domain string) (address FtnAddress, err error) {
 	address.zone, address.region, address.net, address.node, address.point, address.domain = zone, region, net, node, point, domain
+	if address.domain == "" {
+		address.domain = defaultDomain
+	}
 	address.parsed = true
 	return
 }
 
 // Dump2D - returns z:n, string
 func (address *FtnAddress) Dump2D() (addressDump string) {
-	if address.parsed && address.zone > 0 && address.net > 0 {
-		addressDump = fmt.Sprintf("%d:%d", address.zone, address.net)
-	} else if address.parsed && address.Special() && address.zone > 0 && address.region > 0 {
-		addressDump = fmt.Sprintf("%d:%d", address.zone, address.region)
-	}
+	/*
+		if address.parsed && address.zone > 0 && address.net > 0 {
+			addressDump = fmt.Sprintf("%d:%d", address.zone, address.net)
+		} else if address.parsed && address.Special() && address.zone > 0 {
+			addressDump = fmt.Sprintf("%d:%d", address.zone, address.region)
+		}
+	*/
+	addressDump = fmt.Sprintf("%d:%d", address.zone, address.net)
 	return
 }
 
 // Dump3D - returns z:n/f(.p), string
 func (address *FtnAddress) Dump3D() (addressDump string) {
-	if address.parsed && address.zone > 0 && (address.net > 0 || address.region > 0) && address.node >= 0 {
-		addressDump = fmt.Sprintf("%s/%d", address.Dump2D(), address.node)
-		if address.point > 0 {
-			addressDump = fmt.Sprintf("%s.%d", addressDump, address.point)
-		}
+	//if address.parsed && address.zone > 0 && (address.net > 0 || address.region > 0) && address.node >= 0 {
+	addressDump = fmt.Sprintf("%s/%d", address.Dump2D(), address.node)
+	if address.point > 0 {
+		addressDump = fmt.Sprintf("%s.%d", addressDump, address.point)
 	}
+	//}
 	return
 }
 

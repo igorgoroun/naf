@@ -8,25 +8,39 @@ package main
 import (
 	"fmt"
 	"naf/ftnlib"
+	"os"
 )
 
-type ftnMessage struct {
-}
-
 func main() {
-	fmt.Println("New Age Fidonet Tosser & Editor, v.0.1.1")
+
+	app, err := ftnlib.InitApp()
+
+	if err != nil {
+		fmt.Println("ERROR:", err)
+		return
+	}
 
 	/*
 		Check address parsing
 	*/
-	addr, _ := ftnlib.ParseFtnAddress("2:5020/0@fidonet.Org")
-	fmt.Println(addr.Dump3D())
-	fmt.Println(addr.Dump5D())
-	fmt.Println(addr)
+	//addr, _ := ftnlib.ParseFtnAddress("2:46/12@fidonet.Org")
+	//fmt.Println(addr.Dump3D())
+	//fmt.Println(addr.Dump5D())
+	//fmt.Println(addr)
 
 	/*
 		Check nodelist parsing
 	*/
-	ftnlib.ParseNodelist("/Users/snake/Projects/ftn-components/src/snakemkua/FTNNodelistBundle/Tests/Resources/nodelist.082")
-	//fmt.Println(nodelist)
+	/*
+		ndl, _ := ftnlib.ParseNodelist("/Users/snake/Projects/ftn-components/src/snakemkua/FTNNodelistBundle/Tests/Resources/nodelist.082")
+		res, err := ndl.UpdateIndex(app)
+		if !res {
+			if err != nil {
+				log.Fatal("Nodelist error", err)
+			} else {
+				log.Fatal("Undefined nodelist error")
+			}
+		}
+	*/
+	os.Exit(app.Run(os.Args, os.Stdout))
 }
