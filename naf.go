@@ -21,7 +21,7 @@ func main() {
 	}
 
 	/*
-		Check address parsing
+	   Check address parsing
 	*/
 	//addr, _ := ftnlib.ParseFtnAddress("2:46/12@fidonet.Org")
 	//fmt.Println(addr.Dump3D())
@@ -29,18 +29,18 @@ func main() {
 	//fmt.Println(addr)
 
 	/*
-		Check nodelist parsing
+	   Check nodelist parsing
 	*/
 	/*
-		ndl, _ := ftnlib.ParseNodelist("/Users/snake/Projects/ftn-components/src/snakemkua/FTNNodelistBundle/Tests/Resources/nodelist.082")
-		res, err := ndl.UpdateIndex(app)
-		if !res {
-			if err != nil {
-				log.Fatal("Nodelist error", err)
-			} else {
-				log.Fatal("Undefined nodelist error")
-			}
-		}
+	   ndl, _ := ftnlib.ParseNodelist("/Users/snake/Projects/ftn-components/src/snakemkua/FTNNodelistBundle/Tests/Resources/nodelist.082")
+	   res, err := ndl.UpdateIndex(app)
+	   if !res {
+	       if err != nil {
+	           log.Fatal("Nodelist error", err)
+	       } else {
+	           log.Fatal("Undefined nodelist error")
+	       }
+	   }
 	*/
 	os.Exit(app.Run(os.Args, os.Stdout))
 }
